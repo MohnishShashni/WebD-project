@@ -38,13 +38,15 @@
     <div class="bone bone2">🦴</div>
     <div class="bone bone3">🦴</div>
 
-    <div class="container">
+    <div class="container" id="home">
         <div class="cave-header">
             <div class="profile-cave">
                 <div class="profile-stone-ring">
                 </div>
-                <div style=" width: 250px; height: 250px; border-radius: 50%; background: linear-gradient(135deg, #8b6f47, #6b4226); justify-content: center; align-items: center; font-size: 6em; position: absolute; top: 0; left: 0; border: 6px solid #6b4226;">
-                    <img src="shashni.jpg" width="200px" height="200px" alt="">
+                <div style=" width: 0px; height: 0px; ; background: linear-gradient(135deg, #ffffff, #6b4226); justify-content: center; align-items: center; font-size: 6em; position: absolute; top: 0; left: 0; border: 6px solid #6b4226;">
+                    <div class="radius">
+                    <img src="shashni.jpg" width="290px" height="290px" alt="">
+                    </div>
                 </div>
             </div>
             <h1>Mohnish Shashni</h1>
@@ -52,20 +54,24 @@
             <div class="tribe-badge">⚡ Chief of Knowledge Tribe</div>
         </div>
 
-        <!-- Academic Tablet -->
+
         <div class="stone-tablet">
             <div class="tablet-header">
                 <span class="tablet-icon">📜</span>
-                <h2 class="tablet-title">Tribe Records</h2>
+                <h2 class="tablet-title" id="about" >Tribe Records</h2>
             </div>
             <div class="stats-grid">
                 <div class="stat-stone">
-                    <div class="stat-label">🏛️ Learning Cave</div>
+                    <div class="stat-label" id="education">🏛️ Learning Cave</div>
                     <div class="stat-value">Delhi Public School Manali </div>
                 </div>
                 <div class="stat-stone">
                     <div class="stat-label">🎓 Big Learning Cave</div>
                     <div class="stat-value">Delhi Technological University</div>
+                </div>
+                <div class="stat-stone">
+                    <div class="stat-label">🎓 Tribe email</div>
+                    <div class="stat-value"><a href="mailto:shashnimohnish@gmail.com">shashnimohnish@gmail.com</a></div>
                 </div>
                 <div class="stat-stone">
                     <div class="stat-label">🎫 Tribe Number</div>
@@ -92,7 +98,7 @@
         <div class="stone-tablet">
             <div class="tablet-header">
                 <span class="tablet-icon">🏆</span>
-                <h2 class="tablet-title">Battle Victories</h2>
+                <h2 class="tablet-title" id="achievements">Battle Victories</h2>
             </div>
             <div class="stats-grid">
                 <div class="stat-stone">
@@ -125,25 +131,55 @@
         <div class="stone-tablet">
             <div class="tablet-header">
                 <span class="tablet-icon">💬</span>
-                <h2 class="tablet-title">Tribe Languages</h2>
+                <h2 class="tablet-title" id="skills">Tribe skills</h2>
             </div>
             <div class="lang-stones">
-                <div class="lang-stone">🗣️ English Speak</div>
-                <div class="lang-stone">🗣️ Hindi Speak</div>
-                <div class="lang-stone"></div>
+                <div class="lang-stone">🗣️ Python </div>
+                <div class="lang-stone">🗣️ C language </div>
+                <div class="lang-stone">🗣️ HTML </div>
+                <div class="lang-stone">🗣️ CSS </div>
+                <div class="lang-stone">Javascript</div>
+                <div class="lang-stone">🗣️ GIT </div>
             </div>
         </div>
         <!-- Projects Section (Separate Stone Tablet) -->
 <div class="stone-tablet" id="projects">
+
     <div class="tablet-header">
         <span class="tablet-icon">🛠️</span>
         <h2 class="tablet-title">Tribal Creations</h2>
     </div>
+    <div class="stone-tablet" id="contact">
+    <div class="tablet-header">
+        <span class="tablet-icon">📞</span>
+        <h2 class="tablet-title">Clan Connections</h2>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-stone">
+            <div class="stat-label">🔗 LinkedIn Cave</div>
+            <div class="stat-value">
+                <a href="https://www.linkedin.com/in/mohnish-shashni-b68a4b2a2/" target="_blank" style="color:white; text-decoration: underline;">
+                    Visit LinkedIn
+                </a>
+            </div>
+        </div>
+
+        <div class="stat-stone">
+            <div class="stat-label">🐙 GitHub Cave</div>
+            <div class="stat-value">
+                <a href="https://github.com/MohnishShashni" target="_blank" style="color:white; text-decoration: underline;">
+                    Explore GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="stats-grid">
         <!-- Project 1 -->
-        <div class="stat-stone">
-    <div class="stat-label">🗿 TRIBAL DHABA</div>
+        <div class="stat-stone" >
+    <div class="stat-label" id="projects">🗿 TRIBAL DHABA</div>
     <div class="stat-value"></div>
     <p style="margin-top: 10px; font-size: 0.9em;">Food Menu Website, where users can view different food items arranged in categories. It displays dish names, prices, and images in a neatly organized layout, giving the feel of a simple restaurant menu.
         <a href="project1.html" target="_blank" style="color: #fff; text-decoration: underline;">

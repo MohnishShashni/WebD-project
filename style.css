@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Rock+Salt&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Rock+Salt&display=swap');
 
         * {
             margin: 0;
@@ -253,11 +253,11 @@
             transform: translate(-50%, -50%);
             width: 280px;
             height: 280px;
-            border: 8px solid #8b6f47;
+            border: 8px;
             border-radius: 50%;
-            box-shadow: 
+            /* box-shadow: 
                 inset 5px 5px 15px rgba(0, 0, 0, 0.5),
-                5px 5px 20px rgba(0, 0, 0, 0.6);
+                5px 5px 20px rgba(0, 0, 0, 0.6); */
             animation: stoneRotate 8s linear infinite;
         }
 
@@ -720,4 +720,11 @@
         }
         nav ul li a:hover{
             color: #000;
+        }
+        .radius {
+    width: 250px;
+    height: 250px;
+  
+    object-fit: cover; /* keeps the image centered */
+    position: absolute; top: 0; left: 0; 
         }
