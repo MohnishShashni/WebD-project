@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Comparison by Price Range</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .price-selector {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .price-selector h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .price-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .price-btn {
+            padding: 15px 25px;
+            font-size: 1.1em;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .price-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .price-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .comparison-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .car-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .car-name {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .car-price {
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .specs-section, .pros-cons-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .spec-value {
+            color: #333;
+        }
+
+        .pros-list, .cons-list {
+            list-style: none;
+        }
+
+        .pros-list li, .cons-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .pros-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .cons-list li:before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #f44336;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .no-selection {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .no-selection h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .no-selection p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-section {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .price-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚗 Car Comparison Portal</h1>
+            <p class="subtitle">Compare cars by price range with detailed specifications</p>
+        </header>
+
+        <div class="price-selector">
+            <h2>Select Your Price Range</h2>
+            <div class="price-buttons">
+                <button class="price-btn" data-range="budget">Budget (₹5-10 Lakhs)</button>
+                <button class="price-btn" data-range="mid">Mid-Range (₹10-20 Lakhs)</button>
+                <button class="price-btn" data-range="premium">Premium (₹20-35 Lakhs)</button>
+                <button class="price-btn" data-range="luxury">Luxury (₹35+ Lakhs)</button>
+            </div>
+        </div>
+
+        <div id="comparisonArea">
+            <div class="no-selection">
+                <h2>Welcome to Car Comparison Portal</h2>
+                <p>Select a price range above to compare two cars in that category</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const carData = {
+            budget: [
+                {
+                    name: "Maruti Suzuki Swift",
+                    price: "₹6.49 - 9.64 Lakhs",
+                    specs: {
+                        "Engine": "1.2L Petrol",
+                        "Power": "89 BHP",
+                        "Mileage": "22.38 km/l",
+                        "Transmission": "5-Speed MT/AMT",
+                        "Seating": "5 Persons",
+                        "Fuel Tank": "37 Liters"
+                    },
+                    pros: [
+                        "Excellent fuel efficiency",
+                        "Low maintenance costs",
+                        "Sporty styling and handling",
+                        "Wide service network across India",
+                        "Good resale value"
+                    ],
+                    cons: [
+                        "Basic interior quality",
+                        "Limited rear seat space",
+                        "No diesel option available",
+                        "Safety features only in higher variants"
+                    ]
+                },
+                {
+                    name: "Hyundai Grand i10 Nios",
+                    price: "₹5.92 - 8.56 Lakhs",
+                    specs: {
+                        "Engine": "1.2L Petrol/CNG",
+                        "Power": "83 BHP",
+                        "Mileage": "20.7 km/l",
+                        "Transmission": "5-Speed MT/AMT",
+                        "Seating": "5 Persons",
+                        "Fuel Tank": "37 Liters"
+                    },
+                    pros: [
+                        "Feature-rich cabin with touchscreen",
+                        "Comfortable ride quality",
+                        "CNG option available",
+                        "Spacious interior for segment",
+                        "Modern design language"
+                    ],
+                    cons: [
+                        "Less powerful engine than competitors",
+                        "AMT gearbox can be jerky",
+                        "Higher price than some rivals",
+                        "Average handling dynamics"
+                    ]
+                }
+            ],
+            mid: [
+                {
+                    name: "Hyundai Creta",
+                    price: "₹11.00 - 20.30 Lakhs",
+                    specs: {
+                        "Engine": "1.5L Petrol/Diesel",
+                        "Power": "115-160 BHP",
+                        "Mileage": "17-21.4 km/l",
+                        "Transmission": "6-Speed MT/AT",
+                        "Seating": "5 Persons",
+                        "Fuel Tank": "50 Liters"
+                    },
+                    pros: [
+                        "Premium interior with ventilated seats",
+                        "Multiple engine and transmission options",
+                        "Loaded with features and technology",
+                        "Strong road presence and design",
+                        "Excellent after-sales support"
+                    ],
+                    cons: [
+                        "Expensive compared to rivals",
+                        "Diesel engine can be noisy",
+                        "Higher variants are pricey",
+                        "Steering feel could be better"
+                    ]
+                },
+                {
+                    name: "Kia Seltos",
+                    price: "₹10.90 - 20.35 Lakhs",
+                    specs: {
+                        "Engine": "1.5L Petrol/Diesel",
+                        "Power": "115-160 BHP",
+                        "Mileage": "16.8-20.8 km/l",
+                        "Transmission": "6-Speed MT/AT/DCT",
+                        "Seating": "5 Persons",
+                        "Fuel Tank": "50 Liters"
+                    },
+                    pros: [
+                        "Aggressive and modern styling",
+                        "Feature-packed with connected tech",
+                        "Multiple drive modes available",
+                        "Powerful turbo petrol engine option",
+                        "Long warranty period (3 years)"
+                    ],
+                    cons: [
+                        "Firm suspension on rough roads",
+                        "Clutch can be heavy in manual",
+                        "Some plastic quality could improve",
+                        "Waiting period can be long"
+                    ]
+                }
+            ],
+            premium: [
+                {
+                    name: "Jeep Compass",
+                    price: "₹20.29 - 30.75 Lakhs",
+                    specs: {
+                        "Engine": "2.0L Diesel",
+                        "Power": "170 BHP",
+                        "Mileage": "14-17 km/l",
+                        "Transmission": "6-Speed MT/9-Speed AT",
+                        "Seating": "5 Persons",
+                        "Fuel Tank": "60 Liters"
+                    },
+                    pros: [
+                        "Iconic Jeep design and styling",
+                        "4x4 capability in Trailhawk variant",
+                        "Premium interior materials",
+                        "Powerful diesel engine",
+                        "Good safety rating and features"
+                    ],
+                    cons: [
+                        "Limited rear seat space",
+                        "Expensive maintenance costs",
+                        "Smaller service network",
+                        "Lower fuel efficiency",
+                        "Reliability concerns reported"
+                    ]
+                },
+                {
+                    name: "Volkswagen Tiguan",
+                    price: "₹35.17 - 36.67 Lakhs",
+                    specs: {
+                        "Engine": "2.0L TSI Petrol",
+                        "Power": "190 BHP",
+                        "Mileage": "12-13 km/l",
+                        "Transmission": "7-Speed DSG",
+                        "Seating": "7 Persons",
+                        "Fuel Tank": "60 Liters"
+                    },
+                    pros: [
+                        "German build quality and refinement",
+                        "Powerful and smooth engine",
+                        "7-seater configuration available",
+                        "Advanced safety features",
+                        "Comfortable highway cruiser"
+                    ],
+                    cons: [
+                        "Very expensive for the segment",
+                        "High maintenance and parts cost",
+                        "Limited service centers",
+                        "Low fuel efficiency",
+                        "Third-row space is cramped"
+                    ]
+                }
+            ],
+            luxury: [
+                {
+                    name: "BMW X1",
+                    price: "₹45.90 - 51.90 Lakhs",
+                    specs: {
+                        "Engine": "2.0L Petrol/Diesel",
+                        "Power": "190 BHP",
+                        "Mileage": "14-17 km/l",
+                        "Transmission": "7-Speed DCT",
+                        "Seating": "5 Persons",
+                        "Fuel Tank": "51 Liters"
+                    },
+                    pros: [
+                        "Premium BMW brand value",
+                        "Luxurious and spacious cabin",
+                        "Excellent driving dynamics",
+                        "Latest iDrive infotainment system",
+                        "Strong performance and refinement"
+                    ],
+                    cons: [
+                        "Expensive maintenance and service",
+                        "Front-wheel drive based platform",
+                        "Limited off-road capability",
+                        "High insurance costs",
+                        "Expensive spare parts"
+                    ]
+                },
+                {
+                    name: "Mercedes-Benz GLA",
+                    price: "₹51.75 - 58.15 Lakhs",
+                    specs: {
+                        "Engine": "2.0L Petrol",
+                        "Power": "163-224 BHP",
+                        "Mileage": "13-15 km/l",
+                        "Transmission": "8-Speed DCT",
+                        "Seating": "5 Persons",
+                        "Fuel Tank": "50 Liters"
+                    },
+                    pros: [
+                        "Mercedes luxury and prestige",
+                        "High-quality interior materials",
+                        "Advanced MBUX infotainment",
+                        "AMG variant available with 224 BHP",
+                        "Comprehensive safety features"
+                    ],
+                    cons: [
+                        "Premium pricing even for base variant",
+                        "Cramped rear headroom due to design",
+                        "Very expensive to maintain",
+                        "Lower ground clearance",
+                        "Limited boot space"
+                    ]
+                }
+            ]
+        };
+
+        const buttons = document.querySelectorAll('.price-btn');
+        const comparisonArea = document.getElementById('comparisonArea');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                const range = this.getAttribute('data-range');
+                displayComparison(range);
+            });
+        });
+
+        function displayComparison(range) {
+            const cars = carData[range];
+            
+            comparisonArea.innerHTML = `
+                <div class="comparison-section">
+                    ${cars.map(car => createCarCard(car)).join('')}
+                </div>
+            `;
+        }
+
+        function createCarCard(car) {
+            return `
+                <div class="car-card">
+                    <div class="car-header">
+                        <h3 class="car-name">${car.name}</h3>
+                        <div class="car-price">${car.price}</div>
+                    </div>
+                    
+                    <div class="specs-section">
+                        <div class="section-title">📊 Specifications</div>
+                        ${Object.entries(car.specs).map(([key, value]) => `
+                            <div class="spec-item">
+                                <span class="spec-label">${key}</span>
+                                <span class="spec-value">${value}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="pros-cons-section">
+                        <div class="section-title">✅ Advantages</div>
+                        <ul class="pros-list">
+                            ${car.pros.map(pro => `<li>${pro}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="pros-cons-section">
+                        <div class="section-title">⚠️ Disadvantages</div>
+                        <ul class="cons-list">
+                            ${car.cons.map(con => `<li>${con}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
